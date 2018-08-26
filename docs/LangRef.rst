@@ -2285,7 +2285,7 @@ For a simpler introduction to the ordering constraints, see the
     stronger) operations on the same address. If an address is written
     ``monotonic``-ally by one thread, and other threads ``monotonic``-ally
     read that address repeatedly, the other threads must eventually see
-    the write. This corresponds to the C++0x/C1x
+    the write. This corresponds to the C++11/C11
     ``memory_order_relaxed``.
 ``acquire``
     In addition to the guarantees of ``monotonic``, a
@@ -5536,9 +5536,9 @@ value profile information. Currently this is indirect calls (where it
 records the hottest callees) and calls to memory intrinsics such as memcpy,
 memmove, and memset (where it records the hottest byte lengths).
 
-Each VP metadata node contains "VP" string, then a uint32_t value for the value
-profiling kind, a uint64_t value for the total number of times the instruction
-is executed, followed by uint64_t value and execution count pairs.
+Each VP metadata node contains the string "``VP``", a ``i32`` value for the value
+profiling kind, a ``i64`` value for the total number of times the instruction
+is executed, followed by pairs of a ``i64`` value and the corresponding execution count.
 The value profiling kind is 0 for indirect call targets and 1 for memory
 operations. For indirect call targets, each profile value is a hash
 of the callee function name, and for memory operations each value is the
