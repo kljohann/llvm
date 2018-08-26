@@ -444,10 +444,10 @@ some epoch), but in YAML it would be much nicer to express that integer in
 some time format (e.g. 4-May-2012 10:30pm).  YAML I/O has a way to support  
 custom formatting and parsing of scalar types by specializing ScalarTraits<> on
 your data type.  When writing, YAML I/O will provide the native type and
-your specialization must create a temporary llvm::StringRef.  When reading,
-YAML I/O will provide an llvm::StringRef of scalar and your specialization
-must convert that to your native data type.  An outline of a custom scalar type
-looks like:
+your specialization has to stream out the custom formatting via a provided
+llvm::raw_ostream.  When reading, YAML I/O will provide an llvm::StringRef of
+scalar and your specialization must convert that to your native data type.
+An outline of a custom scalar type looks like:
 
 .. code-block:: c++
 
@@ -489,11 +489,11 @@ supported by YAML I/O and use the ordinary scalar notation by default.
 
 BlockScalarTraits specializations are very similar to the
 ScalarTraits specialization - YAML I/O will provide the native type and your
-specialization must create a temporary llvm::StringRef when writing, and
-it will also provide an llvm::StringRef that has the value of that block scalar
-and your specialization must convert that to your native data type when reading.
-An example of a custom type with an appropriate specialization of
-BlockScalarTraits is shown below:
+specialization has to stream out the custom formatting via a provided
+llvm::raw_ostream when writing, and it will provide an llvm::StringRef that
+has the value of that block scalar and your specialization must convert that
+to your native data type when reading.  An example of a custom type with an
+appropriate specialization of BlockScalarTraits is shown below:
 
 .. code-block:: c++
 
@@ -579,7 +579,7 @@ Normalization
 
 When [de]normalization is required, the mapping() method needs a way to access
 normalized values as fields. To help with this, there is
-a template MappingNormalization<> which you can then use to automatically
+a template MappingNormalization<> which you can use to automatically
 do the normalization and denormalization.  The template is used to create
 a local variable in your mapping() method which contains the normalized keys.
 
@@ -593,7 +593,7 @@ Polar which specifies a position in polar coordinates (distance, angle):
       float angle;
     };
 
-but you've decided the normalized YAML for should be in x,y coordinates. That 
+but you've decided the normalized YAML should be in x,y coordinates. That
 is, you want the yaml to look like:
 
 .. code-block:: yaml
@@ -640,7 +640,7 @@ coordinates into polar when reading YAML.
 
 When writing YAML, the local variable "keys" will be a stack allocated 
 instance of NormalizedPolar, constructed from the supplied polar object which
-initializes it x and y fields.  The mapRequired() methods then write out the x
+initializes its x and y fields.  The mapRequired() methods then write out the x
 and y values as key/value pairs.  
 
 When reading YAML, the local variable "keys" will be a stack allocated instance
@@ -654,28 +654,23 @@ and then assigned back to the second parameter to mapping().
 In some cases, the normalized class may be a subclass of the native type and
 could be returned by the denormalize() method, except that the temporary
 normalized instance is stack allocated.  In these cases, the utility template
-MappingNormalizationHeap<> can be used instead.  It just like 
+MappingNormalizationHeap<> can be used instead.  It works just like
 MappingNormalization<> except that it heap allocates the normalized object
 when reading YAML.  It never destroys the normalized object.  The denormalize()
-method can this return "this".
+method can thus return "this".
 
 
 Default values
 --------------
-Within a mapping() method, calls to io.mapRequired() mean that that key is 
+Within a mapping() method, calls to io.mapRequired() mean that key is
 required to exist when parsing YAML documents, otherwise YAML I/O will issue an 
 error.
 
-On the other hand, keys registered with io.mapOptional() are allowed to not 
-exist in the YAML document being read.  So what value is put in the field 
-for those optional keys? 
-There are two steps to how those optional fields are filled in. First, the  
-second parameter to the mapping() method is a reference to a native class.  That
-native class must have a default constructor.  Whatever value the default
-constructor initially sets for an optional field will be that field's value.
-Second, the mapOptional() method has an optional third parameter.  If provided
-it is the value that mapOptional() should set that field to if the YAML document  
-does not have that key.  
+On the other hand, keys registered with io.mapOptional() are allowed to be
+missing in the YAML document being read.  If the YAML document does not have
+a corresponding key, a default value is used.  This value can either be
+specified via the third parameter to the mapOptional() method, or a value is
+synthesized using the default constructor of the type the second argument refers to.
 
 There is one important difference between those two ways (default constructor
 and third parameter to mapOptional). When YAML I/O generates a YAML document, 
@@ -744,7 +739,7 @@ not.  This is similar to something having no syntax errors, but still having
 semantic errors.  To support semantic level checking, YAML I/O allows
 an optional ``validate()`` method in a MappingTraits template specialization.  
 
-When parsing yaml, the ``validate()`` method is call *after* all key/values in 
+When parsing yaml, the ``validate()`` method is called *after* all key/values in
 the map have been processed. Any error message returned by the ``validate()`` 
 method during input will be printed just a like a syntax error would be printed.
 When writing yaml, the ``validate()`` method is called *before* the yaml 
@@ -872,8 +867,8 @@ Document List
 =============
 
 YAML allows you to define multiple "documents" in a single YAML file.  Each 
-new document starts with a left aligned "---" token.  The end of all documents
-is denoted with a left aligned "..." token.  Many users of YAML will never
+new document starts with a left aligned "``---``" token.  The end of all documents
+is denoted with a left aligned "``...``" token.  Many users of YAML will never
 have need for multiple documents.  The top level node in their YAML schema
 will be a mapping or sequence. For those cases, the following is not needed.
 But for cases where you do want multiple documents, you can specify a
@@ -927,7 +922,7 @@ to write your native data as YAML. One thing to recall is that a YAML file
 can contain multiple "documents".  If the top level data structure you are
 streaming as YAML is a mapping, scalar, or sequence, then Output assumes you
 are generating one document and wraps the mapping output 
-with  "``---``" and trailing "``...``".  
+with a leading "``---``" and a trailing "``...``".
 
 The WrapColumn parameter will cause the flow mappings and sequences to
 line-wrap when they go over the supplied column. Pass 0 to completely
@@ -953,8 +948,8 @@ The above could produce output like:
 
 On the other hand, if the top level data structure you are streaming as YAML
 has a DocumentListTraits specialization, then Output walks through each element
-of your DocumentList and generates a "---" before the start of each element
-and ends with a "...".
+of your DocumentList and generates a "``---``" before the start of each element
+and ends with a "``...``".
 
 .. code-block:: c++
    
