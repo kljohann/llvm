@@ -198,7 +198,7 @@ following:
 
 .. code-block:: text
 
-  %idx = getelementptr { [40 x i32]* }, { [40 x i32]* }* %, i64 0, i32 0
+  %idx = getelementptr { [40 x i32]* }, { [40 x i32]* }* %MyVar, i64 0, i32 0
   %arr = load [40 x i32]** %idx
   %idx = getelementptr [40 x i32], [40 x i32]* %arr, i64 0, i64 17
 
@@ -209,7 +209,7 @@ instruction before we can index into the array. If the example was changed to:
 
   %MyVar = uninitialized global { [40 x i32 ] }
   ...
-  %idx = getelementptr { [40 x i32] }, { [40 x i32] }*, i64 0, i32 0, i64 17
+  %idx = getelementptr { [40 x i32] }, { [40 x i32] }* %MyVar, i64 0, i32 0, i64 17
 
 then everything works fine. In this case, the structure does not contain a
 pointer and the GEP instruction can index through the global variable, into the
