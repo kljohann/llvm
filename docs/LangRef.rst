@@ -10877,9 +10877,7 @@ Semantics:
 
 The '``llvm.memcpy.*``' intrinsics copy a block of memory from the
 source location to the destination location, which are not allowed to
-overlap. It copies "len" bytes of memory over. If the argument is known
-to be aligned to some boundary, this can be specified as the fourth
-argument, otherwise it should be set to 0 or 1 (both meaning no alignment).
+overlap. It copies "len" bytes of memory over.
 
 .. _int_memmove:
 
@@ -10932,9 +10930,7 @@ Semantics:
 
 The '``llvm.memmove.*``' intrinsics copy a block of memory from the
 source location to the destination location, which may overlap. It
-copies "len" bytes of memory over. If the argument is known to be
-aligned to some boundary, this can be specified as the fourth argument,
-otherwise it should be set to 0 or 1 (both meaning no alignment).
+copies "len" bytes of memory over.
 
 .. _int_memset:
 
