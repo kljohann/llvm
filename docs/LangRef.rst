@@ -639,7 +639,7 @@ is zero. The address space qualifier must precede any other attributes.
 
 LLVM allows an explicit section to be specified for globals. If the
 target supports it, it will emit globals to the section specified.
-Additionally, the global can placed in a comdat if the target has the necessary
+Additionally, the global can be placed in a comdat if the target has the necessary
 support.
 
 External declarations may have an explicit section specified. Section
@@ -878,7 +878,7 @@ The selection kind must be one of the following:
 ``largest``
     The linker will choose the section containing the largest COMDAT key.
 ``noduplicates``
-    The linker requires that only section with this COMDAT key exist.
+    The linker requires that only the section with this COMDAT key exist.
 ``samesize``
     The linker may choose any COMDAT key but the sections must contain the
     same amount of data.
@@ -1415,7 +1415,7 @@ example:
     This attribute disables prologue / epilogue emission for the
     function. This can have very system-specific consequences.
 ``no-jump-tables``
-    When this attribute is set to true, the jump tables and lookup tables that
+    When this attribute is used, the jump tables and lookup tables that
     can be generated from a switch case lowering are disabled.
 ``nobuiltin``
     This indicates that the callee function at a call site is not recognized as
@@ -1570,7 +1570,7 @@ example:
     This attribute controls the behavior of stack probes: either
     the ``"probe-stack"`` attribute, or ABI-required stack probes, if any.
     It defines the size of the guard region. It ensures that if the function
-    may use more stack space than the size of the guard region, stack probing
+    may use more stack space than the size of the guard region, a stack probing
     sequence will be emitted. It takes one required integer value, which
     is 4096 by default.
 
@@ -1595,14 +1595,14 @@ example:
     has other side-effects, the behavior is undefined. If a function reads
     from a writeonly pointer argument, the behavior is undefined.
 ``argmemonly``
-    This attribute indicates that the only memory accesses inside function are
+    This attribute indicates that the only memory accesses inside the function are
     loads and stores from objects pointed to by its pointer-typed arguments,
     with arbitrary offsets. Or in other words, all memory operations in the
     function can refer to memory only using pointers based on its function
     arguments.
 
-    Note that ``argmemonly`` can be used together with ``readonly`` attribute
-    in order to specify that function reads only from its arguments.
+    Note that ``argmemonly`` can be used together with the ``readonly`` attribute
+    in order to specify that the function reads only from its arguments.
 
     If an argmemonly function reads or writes memory other than the pointer
     arguments, or has other side-effects, the behavior is undefined.
@@ -3501,8 +3501,8 @@ There are also three different categories of constraint codes:
 Output constraints
 """"""""""""""""""
 
-Output constraints are specified by an "``=``" prefix (e.g. "``=r``"). This
-indicates that the assembly will write to this operand, and the operand will
+Output constraints are specified by an "``=``" prefix (e.g. "``=r``"). They
+indicate that the assembly will write to this operand, and the operand will
 then be made available as a return value of the ``asm`` expression. Output
 constraints do not consume an argument from the call instruction. (Except, see
 below about indirect outputs).
@@ -4355,7 +4355,7 @@ field, even if the nodes are ``distinct``.
 
 .. code-block:: text
 
-    !0 = !DIEnumerator(name: "SixKind", value: 7)
+    !0 = !DIEnumerator(name: "SixKind", value: 6)
     !1 = !DIEnumerator(name: "SevenKind", value: 7)
     !2 = !DIEnumerator(name: "NegEightKind", value: -8)
     !3 = !DICompositeType(tag: DW_TAG_enumeration_type, name: "Enum", file: !12,
@@ -4397,8 +4397,8 @@ DISubrange
 :ref:`DICompositeType`.
 
 - ``count: -1`` indicates an empty array.
-- ``count: !9`` describes the count with a :ref:`DILocalVariable`.
-- ``count: !11`` describes the count with a :ref:`DIGlobalVariable`.
+- ``count: !10`` describes the count with a :ref:`DILocalVariable`.
+- ``count: !12`` describes the count with a :ref:`DIGlobalVariable`.
 
 .. code-block:: llvm
 
@@ -5392,7 +5392,7 @@ the loop identifier metadata node directly:
 
 ``irr_loop`` metadata may be attached to the terminator instruction of a basic
 block that's an irreducible loop header (note that an irreducible loop has more
-than once header basic blocks.) If ``irr_loop`` metadata is attached to the
+than one header basic block.) If ``irr_loop`` metadata is attached to the
 terminator instruction of a basic block that is not really an irreducible loop
 header, the behavior is undefined. The intent of this metadata is to improve the
 accuracy of the block frequency propagation. For example, in the code below, the
@@ -6378,7 +6378,7 @@ Implementation:
 """""""""""""""
 
 Depending on properties of the target machine and the particular
-``switch`` instruction, this instruction may be code generated in
+``switch`` instruction, this instruction may be code-generated in
 different ways. For example, it could be generated as a series of
 chained conditional branches or with a lookup table.
 
@@ -6481,7 +6481,7 @@ pad <ExceptionHandling.html#overview>`_ for the exception. As such,
 ":ref:`landingpad <i_landingpad>`" instruction, which contains the
 information about the behavior of the program after unwinding happens,
 as its first non-PHI instruction. The restrictions on the
-"``landingpad``" instruction's tightly couples it to the "``invoke``"
+"``landingpad``" instruction tightly couples it to the "``invoke``"
 instruction, so that the important information contained within the
 "``landingpad``" instruction can't be lost through normal code motion.
 
@@ -8041,8 +8041,8 @@ program where the memory location is known to be dereferenceable;
 otherwise, the behavior is undefined.
 
 The optional ``!invariant.group`` metadata must reference a single metadata name
- ``<index>`` corresponding to a metadata node with no entries.
- See ``invariant.group`` metadata.
+``<index>`` corresponding to a metadata node with no entries.
+See ``invariant.group`` metadata.
 
 The optional ``!nonnull`` metadata must reference a single
 metadata name ``<index>`` corresponding to a metadata node with no
@@ -8350,7 +8350,7 @@ Arguments:
 """"""""""
 
 There are three arguments to the '``atomicrmw``' instruction: an
-operation to apply, an address whose value to modify, an argument to the
+operation to apply, an address whose value to modify, and an argument to the
 operation. The operation must be one of the following keywords:
 
 -  xchg
