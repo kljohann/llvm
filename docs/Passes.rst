@@ -970,7 +970,7 @@ For example: 4 + (x + 5) ⇒ x + (4 + 5)
 
 In the implementation of this algorithm, constants are assigned rank = 0,
 function arguments are rank = 1, and other values are assigned ranks
-corresponding to the reverse post order traversal of current function (starting
+corresponding to the reverse post order traversal of the current function (starting
 at 2), which effectively gives values in deep loops higher rank than values not
 in loops.
 

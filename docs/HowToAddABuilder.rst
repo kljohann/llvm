@@ -62,7 +62,7 @@ Here are the steps you can follow to do so:
                     lab.llvm.org:9990 \
                     <buildslave-access-name> <buildslave-access-password>
 
-   To point a slave to silent master please use lab.llvm.org:9994 instead
+   To point a slave to the silent master please use lab.llvm.org:9994 instead
    of lab.llvm.org:9990.
 
 #. Fill the buildslave description and admin name/e-mail.  Here is an

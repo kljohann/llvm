@@ -34,7 +34,7 @@ triple:
     Target: x86_64-unknown-linux-gnu
 
 Running this command may show something different on your machine as
-you might be using a different architecture or operating system to me.
+you might be using a different architecture or operating system than me.
 
 Fortunately, we don't need to hard-code a target triple to target the
 current machine. LLVM provides ``sys::getDefaultTargetTriple``, which
@@ -84,7 +84,7 @@ machine description of the machine we're targeting. If we want to
 target a specific feature (such as SSE) or a specific CPU (such as
 Intel's Sandylake), we do so now.
 
-To see which features and CPUs that LLVM knows about, we can use
+To see which features and CPUs LLVM knows about, we can use
 ``llc``. For example, let's look at x86:
 
 ::

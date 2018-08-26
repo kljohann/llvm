@@ -130,7 +130,7 @@ x[oP]
  Extract archive members back to files. The *o* modifier applies to this
  operation. This operation retrieves the indicated *files* from the archive
  and writes them back to the operating system's file system. If no
- *files* are specified, the entire archive is extract.
+ *files* are specified, the entire archive is extracted.
 
 
 
@@ -175,8 +175,8 @@ section (above) to determine which modifiers are applicable to which operations.
 
 [u]
 
- When replacing existing files in the archive, only replace those files that have
- a time stamp than the time stamp of the member in the archive.
+ When replacing existing files in the archive, only update those files that have
+ a time stamp newer than the time stamp of the member in the archive.
 
 
 

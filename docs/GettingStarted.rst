@@ -1086,7 +1086,7 @@ share code among the `tools`_.
 
 ``llvm/lib/Support/``
 
-  Source code that corresponding to the header files in ``llvm/include/ADT/``
+  Source code corresponding to the header files in ``llvm/include/ADT/``
   and ``llvm/include/Support/``.
 
 ``llvm/projects``

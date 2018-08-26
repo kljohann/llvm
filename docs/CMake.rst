@@ -397,7 +397,7 @@ LLVM-specific variables
   ``On``, ``Thin`` and ``Full``. Defaults to OFF.
 
 **LLVM_USE_LINKER**:STRING
-  Add ``-fuse-ld={name}`` to the link invocation. The possible value depend on
+  Add ``-fuse-ld={name}`` to the link invocation. The possible values depend on
   your compiler, for clang the value can be an absolute path to your custom
   linker, otherwise clang will prefix the name with ``ld.`` and apply its usual
   search. For example to link LLVM with the Gold linker, cmake can be invoked

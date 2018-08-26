@@ -71,7 +71,7 @@ End-user Options
 
 .. option:: -filetype=<output file type>
 
- Specify what kind of output ``llc`` should generated.  Options are: ``asm``
+ Specify what kind of output ``llc`` should generate.  Options are: ``asm``
  for textual assembly ( ``'.s'``), ``obj`` for native object files (``'.o'``)
  and ``null`` for not emitting anything (for performance testing).
 

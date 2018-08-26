@@ -299,7 +299,7 @@ or parser so we'll need to add it.
 
 In this set of code we've added some functionality on how to keep track of the
 line and column of the "source file". As we lex every token we set our current
-current "lexical location" to the assorted line and column for the beginning
+"lexical location" to the assorted line and column for the beginning
 of the token. We do this by overriding all of the previous calls to
 ``getchar()`` with our new ``advance()`` that keeps track of the information
 and then we have added to all of our AST classes a source location:

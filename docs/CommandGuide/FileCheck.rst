@@ -49,7 +49,7 @@ OPTIONS
 
 .. option:: --match-full-lines
 
- By default, FileCheck allows matches of anywhere on a line. This
+ By default, FileCheck allows matches anywhere on a line. This
  option will require all positive matches to cover an entire
  line. Leading and trailing whitespace is ignored, unless
  :option:`--strict-whitespace` is also specified. (Note: negative
@@ -523,7 +523,7 @@ by variables set in preceding tests.
 FileCheck Expressions
 ~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes there's a need to verify output which refers line numbers of the
+Sometimes there's a need to verify output which refers to line numbers of the
 match file, e.g. when testing compiler diagnostics.  This introduces a certain
 fragility of the match file structure, as "``CHECK:``" lines contain absolute
 line numbers in the same file, which have to be updated whenever line numbers
