@@ -39,12 +39,14 @@ RUN mkdir /tmp/cmake-install && cd /tmp/cmake-install && \
     tar xzf cmake-3.7.2-Linux-x86_64.tar.gz -C /usr/local --strip-components=1 && \
     cd / && rm -rf /tmp/cmake-install
 
-ADD checksums /tmp/checksums
 ADD scripts /tmp/scripts
 
 # Checkout the source code.
 ARG checkout_args
 RUN /tmp/scripts/checkout.sh ${checkout_args}
+# Apply all patches.
+ADD patches /tmp/patches
+RUN python /tmp/patches/apply.py
 # Run the build. Results of the build will be available at /tmp/clang-install/.
 ARG buildscript_args
 RUN /tmp/scripts/build_install_llvm.sh --to /tmp/clang-install ${buildscript_args}
@@ -55,7 +57,8 @@ FROM launcher.gcr.io/google/debian8:latest
 LABEL maintainer "LLVM Developers"
 # Install packages for minimal useful image.
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libstdc++-4.9-dev binutils && \
+    apt-get install -y --no-install-recommends libstdc++-4.9-dev binutils python && \
     rm -rf /var/lib/apt/lists/*
 # Copy build results of stage 1 to /usr/local.
 COPY --from=builder /tmp/clang-install/ /usr/local/
+COPY --from=builder /tmp/clang-build/src/clang/bindings/python/clang/ /usr/local/lib/python2.7/dist-packages/clang

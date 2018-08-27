@@ -184,6 +184,7 @@ echo "Using a temporary directory for the build: $BUILD_DIR"
 
 cp -r "$SOURCE_DIR/$IMAGE_SOURCE" "$BUILD_DIR/$IMAGE_SOURCE"
 cp -r "$SOURCE_DIR/scripts" "$BUILD_DIR/scripts"
+cp -r "$SOURCE_DIR/patches" "$BUILD_DIR/patches"
 
 mkdir "$BUILD_DIR/checksums"
 if [ "$CHECKSUMS_FILE" != "" ]; then
